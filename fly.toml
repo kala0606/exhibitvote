@@ -1,0 +1,34 @@
+# fly.toml — ExhibitVote
+# Replace "exhibitvote" with your actual app name after `fly launch`
+
+app = "exhibitvote"
+primary_region = "sin"   # Singapore — closest to India. Change to "bom" if available in your plan.
+
+[build]
+
+[env]
+  PORT     = "8080"
+  NODE_ENV = "production"
+  DB_PATH  = "/data/exhibitvote.db"
+
+[http_service]
+  internal_port       = 8080
+  force_https         = true
+  auto_stop_machines  = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type       = "connections"
+    hard_limit = 100
+    soft_limit = 80
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
+
+# Persistent volume for SQLite — created with: fly volumes create exhibitvote_data --size 1
+[[mounts]]
+  source      = "exhibitvote_data"
+  destination = "/data"

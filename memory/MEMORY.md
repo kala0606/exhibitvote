@@ -1,0 +1,1 @@
+- [ExhibitVote project context](project_exhibitvote.md) — full-stack voting app for EarthAlive thesis off-site, stack/start/mechanics
