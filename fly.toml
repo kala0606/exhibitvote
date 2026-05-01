@@ -1,34 +1,36 @@
-# fly.toml — ExhibitVote
-# Replace "exhibitvote" with your actual app name after `fly launch`
+# fly.toml app configuration file generated for exhibitvote on 2026-05-01T06:02:27Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "exhibitvote"
-primary_region = "sin"   # Singapore — closest to India. Change to "bom" if available in your plan.
+app = 'exhibitvote'
+primary_region = 'ams'
 
 [build]
 
 [env]
-  PORT     = "8080"
-  NODE_ENV = "production"
-  DB_PATH  = "/data/exhibitvote.db"
+  DB_PATH = '/data/exhibitvote.db'
+  NODE_ENV = 'production'
+  PORT = '8080'
+
+[[mounts]]
+  source = 'exhibitvote_data'
+  destination = '/data'
 
 [http_service]
-  internal_port       = 8080
-  force_https         = true
-  auto_stop_machines  = "stop"
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
 
   [http_service.concurrency]
-    type       = "connections"
+    type = 'connections'
     hard_limit = 100
     soft_limit = 80
 
 [[vm]]
-  memory = "512mb"
-  cpu_kind = "shared"
+  memory = '512mb'
+  cpu_kind = 'shared'
   cpus = 1
-
-# Persistent volume for SQLite — created with: fly volumes create exhibitvote_data --size 1
-[[mounts]]
-  source      = "exhibitvote_data"
-  destination = "/data"
+  memory_mb = 256
